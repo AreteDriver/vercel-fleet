@@ -9,10 +9,12 @@ Vercel's dashboard answers "how is *this* project doing?" `vercel-fleet` answers
 ## Install
 
 ```bash
-pip install vercel-fleet
+pip install vercel-fleet          # CLI only
+pip install vercel-fleet[mcp]     # CLI + MCP server
+
 # or, from source
 git clone https://github.com/AreteDriver/vercel-fleet && cd vercel-fleet
-pip install -e .
+pipx install --editable ".[mcp]"  # adds vercel-fleet AND vercel-fleet-mcp to PATH
 ```
 
 ## Auth
@@ -44,6 +46,32 @@ vercel-fleet deploys --since 7d --state ERROR
 vercel-fleet project benchgoblins
 vercel-fleet refs --include-bots
 ```
+
+## Claude Code MCP server
+
+`vercel-fleet[mcp]` ships an MCP stdio server that exposes the same data as JSON-returning tools, so Claude Code can compose fleet data with anything else in a session.
+
+Register:
+
+```bash
+claude mcp add vercel-fleet -- /home/$USER/.local/bin/vercel-fleet-mcp
+claude mcp list  # vercel-fleet: ✓ Connected
+```
+
+Tools exposed:
+
+| Tool | Returns |
+|---|---|
+| `overview` | Fleet rollup: totals, live projects, anomalies |
+| `project(name)` | Drill-down: top pages, refs (tagged bot/real), countries, devices, deploys |
+| `dark` | Projects with analytics disabled or zero traffic |
+| `deploys(since?, state?, limit?)` | Fleet-wide deploys |
+| `refs(project?, include_bots?)` | Referrer hostnames |
+| `last_sync` | Freshness check — when, age, errors |
+| `sync` | Pull fresh data from Vercel API (~30s) |
+| `denylist` | Bot referrer denylist |
+
+All tools return JSON. Compose queries like *"compare top 3 projects' real-referrer views with their last-deploy ages"* — Claude calls `overview`, then `project` for each, joins the results.
 
 ## Daily refresh
 
@@ -103,8 +131,8 @@ Speed Insights and Usage/cost APIs are not yet supported (no public REST endpoin
 
 ```bash
 pip install -e ".[dev]"
-pytest                    # 59 tests
-pytest --cov=vercel_fleet # ≥82% coverage
+pytest                    # 79 tests
+pytest --cov=vercel_fleet # ≥80% coverage
 ruff check src tests
 ```
 

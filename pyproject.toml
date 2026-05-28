@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vercel-fleet"
-version = "0.1.0"
+version = "0.2.0"
 description = "Cross-project Vercel analytics rollup — overview, deploys, dark projects, bot-filtered referrers"
 readme = "README.md"
 license = {text = "MIT"}
@@ -31,14 +31,19 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+mcp = [
+    "mcp>=1.0",
+]
 dev = [
     "pytest>=7.4",
     "pytest-cov>=4.1",
     "ruff>=0.5.0",
+    "mcp>=1.0",
 ]
 
 [project.scripts]
 vercel-fleet = "vercel_fleet.cli:app"
+vercel-fleet-mcp = "vercel_fleet.mcp_server:main"
 
 [project.urls]
 Repository = "https://github.com/AreteDriver/vercel-fleet"
