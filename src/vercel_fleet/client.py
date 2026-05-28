@@ -153,7 +153,7 @@ class VercelClient:
     ) -> list[TopValue]:
         if dimension not in ANALYTICS_DIMENSIONS:
             raise ValueError(f"Unsupported dimension: {dimension}")
-        now = dt.datetime.now(dt.UTC)
+        now = dt.datetime.now(dt.timezone.utc)
         params = {
             "projectId": project_id,
             "from": _iso(now - dt.timedelta(days=days)),
