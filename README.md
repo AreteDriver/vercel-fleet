@@ -47,6 +47,16 @@ vercel-fleet project benchgoblins
 vercel-fleet refs --include-bots
 ```
 
+## Claude Code slash-command
+
+`.claude/commands/vercel-fleet.md` ships a `/vercel-fleet` slash-command that wraps the CLI inline — it maps `$ARGUMENTS` to the right subcommand and shows the output verbatim. Install by symlinking it into your user commands dir (keeps it tracked here, no drift):
+
+```bash
+ln -s ~/projects/vercel-fleet/.claude/commands/vercel-fleet.md ~/.claude/commands/vercel-fleet.md
+```
+
+Then `/vercel-fleet`, `/vercel-fleet sync`, `/vercel-fleet project <name>`, etc. The command requires the `vercel-fleet` CLI on PATH (`pip install -e .`).
+
 ## Claude Code MCP server
 
 `vercel-fleet[mcp]` ships an MCP stdio server that exposes the same data as JSON-returning tools, so Claude Code can compose fleet data with anything else in a session.
