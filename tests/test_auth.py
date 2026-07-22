@@ -4,12 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from vercel_fleet.auth import (
-    DEFAULT_TEAM_ID,
-    AuthError,
-    load_team_id,
-    load_token,
-)
+from vercel_fleet.auth import AuthError, load_team_id, load_token
 
 
 def test_load_token_from_env(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -50,4 +45,5 @@ def test_team_id_env_override(monkeypatch: pytest.MonkeyPatch) -> None:
 
 def test_team_id_default(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.delenv("VERCEL_TEAM_ID", raising=False)
-    assert load_team_id() == DEFAULT_TEAM_ID
+    assert load_team_id() == ""
+
