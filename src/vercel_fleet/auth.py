@@ -10,7 +10,6 @@ class AuthError(RuntimeError):
 
 
 VERCEL_CLI_AUTH_PATH = Path.home() / ".local/share/com.vercel.cli/auth.json"
-DEFAULT_TEAM_ID = "team_xlh6U5EF6U2zgGDYlEPh2BL4"
 
 
 def load_token() -> str:
@@ -36,4 +35,5 @@ def load_token() -> str:
 
 
 def load_team_id() -> str:
-    return os.environ.get("VERCEL_TEAM_ID", DEFAULT_TEAM_ID)
+    return os.environ.get("VERCEL_TEAM_ID", "")
+
