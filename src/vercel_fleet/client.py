@@ -105,7 +105,9 @@ class VercelClient:
         self.close()
 
     def _get(self, path: str, params: dict[str, Any] | None = None) -> dict[str, Any]:
-        merged = {"teamId": self.team_id, **(params or {})}
+        merged: dict[str, Any] = {**(params or {})}
+        if self.team_id:
+            merged["teamId"] = self.team_id
         resp = self._client.get(path, params=merged)
         if resp.status_code >= 400:
             try:
